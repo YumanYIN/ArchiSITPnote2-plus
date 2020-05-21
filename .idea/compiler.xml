@@ -18,7 +18,7 @@
       <module name="ClientCore" target="8" />
       <module name="rest-test" target="8" />
       <module name="RESTApplication" target="8" />
-      <module name="RESTServer" target="1.5" />
+      <module name="RESTServer" target="8" />
       <module name="ServerCore" target="8" />
       <module name="SOAPApplication" target="8" />
       <module name="SOAPServer" target="8" />
