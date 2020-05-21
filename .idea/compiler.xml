@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ServerCore" />
+        <module name="SOAPServer" />
+        <module name="RESTServer" />
+        <module name="SOAPApplication" />
+        <module name="ClientCore" />
+        <module name="RESTApplication" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ClientCore" target="8" />
+      <module name="rest-test" target="8" />
+      <module name="RESTApplication" target="8" />
+      <module name="RESTServer" target="1.5" />
+      <module name="ServerCore" target="8" />
+      <module name="SOAPApplication" target="8" />
+      <module name="SOAPServer" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ClientCore/ClientCore.iml" filepath="$PROJECT_DIR$/ClientCore/ClientCore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RESTApplication/RESTApplication.iml" filepath="$PROJECT_DIR$/RESTApplication/RESTApplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RESTServer/RESTServer.iml" filepath="$PROJECT_DIR$/RESTServer/RESTServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SOAPApplication/SOAPApplication.iml" filepath="$PROJECT_DIR$/SOAPApplication/SOAPApplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SOAPServer/SOAPServer.iml" filepath="$PROJECT_DIR$/SOAPServer/SOAPServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ServerCore/ServerCore.iml" filepath="$PROJECT_DIR$/ServerCore/ServerCore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rest-test.iml" filepath="$PROJECT_DIR$/rest-test.iml" />
+    </modules>
+  </component>
+</project>

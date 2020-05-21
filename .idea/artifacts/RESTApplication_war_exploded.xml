@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="RESTApplication:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/RESTApplication_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="RESTApplication/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="RESTApplication" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
