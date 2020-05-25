@@ -5,6 +5,7 @@ import Bean.Post;
 import Bean.Profile;
 import DAO.PostDAO;
 import DAO.ProfileDAO;
+import util.JwtUtils;
 
 import java.util.List;
 
@@ -12,39 +13,55 @@ public class PostService {
     private PostDAO postDAO = new PostDAO();
     private ProfileDAO profileDAO = new ProfileDAO();
 
-    public List<Post> getAllPosts(int profileId){
+    public List<Post> getAllPosts(){
         return postDAO.findAll();
     }
 
-    /*public List<Post> getAllPosts(int profileId){
-        return postDAO.findAll(Post.class);
-    }*/
-
-    public boolean publishPost(String text, String imagePath, String typeVisible, int profileId){
-        Post post = new Post(imagePath, text, typeVisible, profileDAO.getProfileById(profileId));
-        return postDAO.addPost(post);
+    public List<Post> getMyAllPosts(String jwt){
+        try{
+            String username = JwtUtils.getInstance().getUserNameFromJwtToken(jwt);
+            return postDAO.getAllPostsOfProfile(profileDAO.getProfileByUsername(username).getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    /*public boolean publishPost(String text, String imagePath, String typeVisible, int profileId){
-        Post post = new Post(imagePath, text, typeVisible, profileDAO.findById(Profile.class, profileId));
-        return postDAO.addEntity(post);
-    }*/
-
-    public boolean deletePost(int postId){
-        return postDAO.delPost(postId);
+    public boolean publishPost(String text, String imagePath, String typeVisible, String jwt){
+        try{
+            String username = JwtUtils.getInstance().getUserNameFromJwtToken(jwt);
+            return postDAO.addPost(new Post(imagePath, text, typeVisible, profileDAO.getProfileByUsername(username)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    /*public boolean deletePost(int postId){
-        Post post = postDAO.findById(Post.class, postId);
-        return postDAO.delEntity(post);
-    }*/
+    public boolean deletePost(int postId, String jwt){
+        try {
+            if(!JwtUtils.getInstance().getUserNameFromJwtToken(jwt).isEmpty()) {
+                return postDAO.delPost(postId);
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public List<Comment> showComments(int postId){
         return postDAO.getCommentOfPost(postId);
     }
 
-    public boolean updatePost(int postId, String text, String imagePath, String typeVisible){
-        return postDAO.updatePost(postId, text, imagePath, typeVisible);
+    public boolean updatePost(int postId, String text, String imagePath, String typeVisible, String jwt){
+        try {
+            if(!JwtUtils.getInstance().getUserNameFromJwtToken(jwt).isEmpty()) {
+                return postDAO.updatePost(postId, text, imagePath, typeVisible);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public List<Post> getPublicPost(int authorId){

@@ -31,6 +31,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="GlassFish 5.0.1" level="application_server_libraries" />
     <orderEntry type="library" name="JAX-WS-Glassfish / JAX-WS 2.2 RI / Metro 1.X / JWSDP 2.2" level="project" />
+    <orderEntry type="library" name="JPA 2.0-2.0" level="project" />
     <orderEntry type="module" module-name="ClientCore" />
     <orderEntry type="library" name="Maven: org.apache.axis2:axis2-adb:1.7.9" level="project" />
     <orderEntry type="library" name="Maven: org.apache.axis2:axis2-kernel:1.7.9" level="project" />

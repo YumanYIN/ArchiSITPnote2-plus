@@ -1,3 +1,5 @@
+import service.CommentServiceRESTful;
+import service.PostServiceRESTful;
 import service.ProfileServiceRESTful;
 
 import javax.ws.rs.ApplicationPath;
@@ -14,6 +16,8 @@ public class MyApplication extends Application{
     public Set<Class<?>> getClasses() {
         HashSet h = new HashSet<Class<?>>();
         h.add( ProfileServiceRESTful.class );
+        h.add( PostServiceRESTful.class );
+        h.add( CommentServiceRESTful.class );
         return h;
     }
 }

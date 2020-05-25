@@ -14,7 +14,7 @@ public class testMain {
     public static void main(String[] argc){
         ProfileService profileService = new ProfileService();
         //profileService.register("username","password");
-        Profile profile = profileService.login("username1","password");
+        profileService.login("username1","password");
 
         return;
 

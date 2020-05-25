@@ -22,7 +22,7 @@ public class ProfileServiceSOAP extends ProfileService {
     @WebMethod(operationName = "login")
     @WebResult(name = "loginResponse")
     @Override
-    public Profile login(@WebParam(name = "username") String username,
+    public String login(@WebParam(name = "username") String username,
                          @WebParam(name = "password") String password){
         return super.login(username, password);
     }
@@ -33,5 +33,12 @@ public class ProfileServiceSOAP extends ProfileService {
     public boolean register(@WebParam(name = "username") String username,
                             @WebParam(name = "passeord") String password){
         return super.register(username, password);
+    }
+
+    @WebMethod(operationName = "logout")
+    @WebResult(name = "logoutResponse")
+    @Override
+    public String logout(@WebParam(name = "jwt") String jwt){
+        return super.logout(jwt);
     }
 }

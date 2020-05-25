@@ -2,19 +2,22 @@ package BaseService;
 
 import Bean.Profile;
 import DAO.ProfileDAO;
+import util.JwtUtils;
 
 public class ProfileService {
     private static ProfileDAO profileDAO = new ProfileDAO();
 
-    public Profile login(String username, String password){
+    public String login(String username, String password){
         try{
             if(profileDAO.authentication(username,password)){
-                return profileDAO.getProfileByUsername(username);
+                Profile profile = profileDAO.getProfileByUsername(username);
+                return JwtUtils.getInstance().generateJwtToken(profile.getUsername());
+                //return profile;
             }else{
-                return new Profile();
+                return "Votre connexion a ¨¦chou¨¦";
             }
         }catch (Exception e){
-            return new Profile();
+            return "Votre connexion a ¨¦chou¨¦, il y a un probl¨¨me";
         }
     }
 
@@ -25,5 +28,9 @@ public class ProfileService {
         }else{
             return false;
         }
+    }
+
+    public String logout(String jwt){
+        return JwtUtils.getInstance().generateJwtToken("");
     }
 }

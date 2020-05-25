@@ -12,7 +12,7 @@ public class CommentDAO extends BaseDAO {
     private ProfileDAO profileDAO = new ProfileDAO();
 
     public List<Comment> getAllCommentsOfPost(int postId){
-        String sql = "SELECT * FROM comment WHERE postid = ?";
+        String sql = "SELECT * FROM comment WHERE post_id = ?";
         Object param[] = { postId };
         List<Map<String, Object>> result = select(sql, param);
         return turnToComment(result);
@@ -50,8 +50,8 @@ public class CommentDAO extends BaseDAO {
             Comment comment = new Comment();
             comment.setId(Integer.valueOf(commentMap.get("id").toString()));
             comment.setText(commentMap.get("text").toString());
-            comment.setPost(postDAO.getPost(Integer.valueOf(commentMap.get("postid").toString())));
-            comment.setAuthor(profileDAO.getProfileById(Integer.valueOf(commentMap.get("authorid").toString())));
+            comment.setPost(postDAO.getPost(Integer.valueOf(commentMap.get("post_id").toString())));
+            comment.setAuthor(profileDAO.getProfileById(Integer.valueOf(commentMap.get("author_id").toString())));
             comment.setCreated(commentMap.get("created").toString());
             comments.add(comment);
         }

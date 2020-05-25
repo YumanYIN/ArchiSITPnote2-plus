@@ -15,44 +15,57 @@ public class PostServiceRESTful extends PostService{
 
     @GET
     @Path("allPosts")
-    @Override
-    public List<Post> getAllPosts(int profileId){
-        return super.getAllPosts(profileId);
+    public Post[] getAllPost(){
+        List<Post> postList = super.getAllPosts();
+        Post[] posts = new Post[postList.size()];
+        postList.toArray(posts);
+        return posts;
     }
 
     @POST
     @Override
-    public boolean publishPost(String text, String imagePath, String typeVisible, int profileId){
-        return super.publishPost(text, imagePath, typeVisible, profileId);
+    public boolean publishPost(@QueryParam("text") String text,
+                               @QueryParam("imagePath") String imagePath,
+                               @QueryParam("typeVisible") String typeVisible,
+                               @QueryParam("jwt") String jwt){
+        return super.publishPost(text, imagePath, typeVisible, jwt);
     }
 
     @PUT
-    @Path("{postId:[0-9]*}")
+    @Path("{postId}")
     @Override
     public boolean updatePost(@PathParam("postId") int postId,
-                              String text,
-                              String imagePath,
-                              String typeVisible){
-        return super.updatePost(postId, text, imagePath, typeVisible);
+                              @QueryParam("text") String text,
+                              @QueryParam("imagePath") String imagePath,
+                              @QueryParam("typeVisible") String typeVisible,
+                              @QueryParam("jwt") String jwt){
+        return super.updatePost(postId, text, imagePath, typeVisible, jwt);
     }
 
     @GET
     @Path("publicPost")
     @Override
-    public List<Post> getPublicPost(int authorId){
+    public List<Post> getPublicPost(@QueryParam("authorId") int authorId){
         return super.getPublicPost(authorId);
     }
 
     @DELETE
     @Override
-    public boolean deletePost(int postId){
-        return super.deletePost(postId);
+    public boolean deletePost(@QueryParam("postId") int postId,
+                              @QueryParam("jwt") String jwt){
+        return super.deletePost(postId, jwt);
     }
 
     @GET
     @Path("showComments")
     @Override
-    public List<Comment> showComments(int postId){
+    public List<Comment> showComments(@QueryParam("postId") int postId){
         return super.showComments(postId);
+    }
+
+    @GET
+    @Path("allMyPosts")
+    public List<Post> getMyAllPosts(@QueryParam("jwt") String jwt){
+        return super.getMyAllPosts(jwt);
     }
 }

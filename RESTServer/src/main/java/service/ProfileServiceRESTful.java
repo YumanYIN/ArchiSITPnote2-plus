@@ -16,9 +16,8 @@ public class  ProfileServiceRESTful extends ProfileService {
     @POST
     @Path("login")
     @Override
-    public Profile login(@QueryParam("username") String username, @QueryParam("password") String password){
-        Profile profile = super.login(username, password);
-        return profile;
+    public String login(@QueryParam("username") String username, @QueryParam("password") String password){
+        return super.login(username, password);
     }
 
     @GET
@@ -26,5 +25,11 @@ public class  ProfileServiceRESTful extends ProfileService {
     @Override
     public boolean register(@QueryParam("username") String username, @QueryParam("password") String password){
         return super.register(username, password);
+    }
+
+    @DELETE
+    @Override
+    public String logout(@QueryParam("jwt") String jwt){
+        return super.logout(jwt);
     }
 }

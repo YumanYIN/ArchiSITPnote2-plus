@@ -12,13 +12,16 @@ public class CommentServiceRESTful extends CommentService {
 
     @POST
     @Override
-    public boolean publishComment(int postId, int authorId, String text){
-        return super.publishComment(postId, authorId, text);
+    public boolean publishComment(@QueryParam("postId") int postId,
+                                  @QueryParam("text") String text,
+                                  @QueryParam("jwt") String jwt){
+        return super.publishComment(postId, text, jwt);
     }
 
     @DELETE
     @Override
-    public boolean deleteComment(int commentId){
-        return super.deleteComment(commentId);
+    public boolean deleteComment(@QueryParam("commentId") int commentId,
+                                 @QueryParam("jwt") String jwt){
+        return super.deleteComment(commentId,jwt);
     }
 }

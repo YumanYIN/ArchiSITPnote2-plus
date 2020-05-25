@@ -16,15 +16,16 @@ public class CommentServiceSOAP extends CommentService {
     @WebMethod(operationName = "publishComment")
     @Override
     public boolean publishComment(@WebParam(name = "postId") int postId,
-                                  @WebParam(name = "profileId") int profileId,
-                                  @WebParam(name = "text") String text){
-        return super.publishComment(postId, profileId, text);
+                                  @WebParam(name = "text") String text,
+                                  @WebParam(name = "jwt") String jwt){
+        return super.publishComment(postId, text, jwt);
     }
 
     @WebMethod(operationName = "deleteComment")
     @WebResult(name = "deleteCommentResponse")
     @Override
-    public boolean deleteComment(@WebParam(name = "commentId") int commentId){
-        return super.deleteComment(commentId);
+    public boolean deleteComment(@WebParam(name = "commentId") int commentId,
+                                 @WebParam(name = "jwt") String jwt){
+        return super.deleteComment(commentId, jwt);
     }
 }

@@ -23,9 +23,8 @@ public class PostServiceSOAP extends PostService {
 
     @WebMethod(operationName = "getAllPosts")
     @WebResult(name = "getAllPostsResponse")
-    public Post[] getAllPosts(@WebParam(name = "profileId") int profileId,
-                                  @WebParam(name = "profileId") int profileIdRepeat){
-        List<Post> postList = super.getAllPosts(profileId);
+    public Post[] getAllPost(){
+        List<Post> postList = super.getAllPosts();
         Post[] posts = new Post[postList.size()];
         postList.toArray(posts);
         return posts;
@@ -37,15 +36,16 @@ public class PostServiceSOAP extends PostService {
     public boolean publishPost(@WebParam(name = "text") String text,
                                @WebParam(name = "imagePath") String imagePath,
                                @WebParam(name = "typeVisible") String typeVisible,
-                               @WebParam(name = "profileId") int profileId){
-        return super.publishPost(text, imagePath, typeVisible, profileId);
+                               @WebParam(name = "jwt") String jwt){
+        return super.publishPost(text, imagePath, typeVisible, jwt);
     }
 
     @WebMethod(operationName = "deletePost")
     @WebResult(name = "deletePostResponse")
     @Override
-    public boolean deletePost(@WebParam(name = "id") int id){
-        return super.deletePost(id);
+    public boolean deletePost(@WebParam(name = "id") int id,
+                              @WebParam(name = "jwt") String jwt){
+        return super.deletePost(id, jwt);
     }
 
     @WebMethod(operationName = "showComments")
@@ -64,7 +64,17 @@ public class PostServiceSOAP extends PostService {
     public boolean updatePost(@WebParam(name = "postid") int postId,
                               @WebParam(name = "text") String text,
                               @WebParam(name = "imagepath") String imagePath,
-                              @WebParam(name = "typevisible") String typeVisible){
-        return super.updatePost(postId, text, imagePath, typeVisible);
+                              @WebParam(name = "typevisible") String typeVisible,
+                              @WebParam(name = "jwt") String jwt){
+        return super.updatePost(postId, text, imagePath, typeVisible, jwt);
+    }
+
+    @WebMethod(operationName = "allMyPosts")
+    @WebResult(name = "allMyPostsResponse")
+    public Post[] getMyAllPost(@WebParam(name = "jwt") String jwt){
+        List<Post> postList = super.getMyAllPosts(jwt);
+        Post[] posts = new Post[postList.size()];
+        postList.toArray(posts);
+        return posts;
     }
 }
