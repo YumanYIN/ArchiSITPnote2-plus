@@ -1,42 +1,79 @@
 package DAO;
 
 import Bean.Profile;
-import org.hibernate.Transaction;
 
-import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-public class ProfileDAO extends HibernateDAO {
-
-    public Profile getProfileByUsername(String username){
-        String hql = "From Profile as p Where username = :username";
-        //Transaction transaction = getSession().beginTransaction();
-        Query query = getSession().createQuery(hql,Profile.class).setParameter("username",username);
-        return (Profile) query.getResultList().get(0);
+public class ProfileDAO extends BaseDAO {
+    public boolean addProfile(Profile profile){
+        String sql = "INSERT INTO profile VALUES(DEFAULT, ?, ?, ?)";
+        Object param[] = {
+                profile.getUsername(),
+                profile.getPassword(),
+                profile.getAvatar()
+        };
+        if (updateByParams(sql, param)){
+            return true;
+        }
+        else{
+            System.out.println("please check your input");
+            return false;
+        }
     }
 
-    public boolean authentication (String username, String password){
-        String hql = "From Profile as p Where username = :username And password = :password";
-        //Transaction transaction = getSession().beginTransaction();
-        Query query = getSession().createQuery(hql,Profile.class).setParameter("username",username).setParameter("password", password);
-        if(query.getResultList().size() == 0){
+    public boolean authentication(String username, String password){
+        String sql = "SELECT * FROM profile WHERE `username` = ? AND `password` = ?";
+        Object param[] = {
+                username,
+                password
+        };
+        List<Map<String, Object>> result = select(sql, param);
+        if(result.size() == 0){
             return false;
-        }else {
+        }else{
             return true;
         }
     }
 
+    public boolean isLogin(String username, String password){
+        return true;
+    }
+
+    public Profile getProfileByUsername(String username){
+        String sql = "SELECT * FROM profile WHERE `username` = ?";
+        Object param[] = {
+                username
+        };
+        List<Map<String, Object>> result = select(sql, param);
+        return turnToList(result).get(0);
+    }
+
+    public Profile getProfileById(int id){
+        String sql = "SELECT * FROM profile WHERE `id` = ?";
+        Object param[] = {
+                id
+        };
+        List<Map<String, Object>> result = select(sql, param);
+        return turnToList(result).get(0);
+    }
+
     public boolean existUsername(String username){
-        try {
-            String hql = "From Profile as p Where username = :username";
-            //Transaction transaction = getSession().beginTransaction();
-            Query query = getSession().createQuery(hql, Profile.class).setParameter("username", username);
-            if (query.getResultList().size() == 0) {
-                return false;
-            } else {
-                return true;
-            }
-        }catch (Exception e){
-            return false;
+
+        return false;
+    }
+
+    private List<Profile> turnToList(List<Map<String, Object>> result){
+        List<Profile> profiles = new ArrayList<Profile>();
+        for (Map<String, Object> profileMap:result) {
+            Profile profile = new Profile();
+            profile.setId(Integer.valueOf(profileMap.get("id").toString()));
+            profile.setUsername(profileMap.get("username").toString());
+            profile.setPassword(profileMap.get("password").toString());
+            profile.setAvatar(profileMap.get("avatar").toString());
+            profiles.add(profile);
         }
+        return profiles;
     }
 }

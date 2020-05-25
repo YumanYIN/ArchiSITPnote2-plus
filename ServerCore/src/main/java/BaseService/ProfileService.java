@@ -21,7 +21,7 @@ public class ProfileService {
     public boolean register(String username, String password){
         if(!profileDAO.existUsername(username)){
             Profile profile = new Profile(username, password, "");
-            return profileDAO.addEntity(profile);
+            return profileDAO.addProfile(profile);
         }else{
             return false;
         }
