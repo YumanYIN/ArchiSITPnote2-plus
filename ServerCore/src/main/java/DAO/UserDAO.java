@@ -1,18 +1,18 @@
 package DAO;
 
-import Bean.Profile;
+import Bean.User;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ProfileDAO extends BaseDAO {
-    public boolean addProfile(Profile profile){
-        String sql = "INSERT INTO profile VALUES(DEFAULT, ?, ?, ?)";
+public class UserDAO extends BaseDAO {
+    public boolean addUser(User user){
+        String sql = "INSERT INTO user VALUES(DEFAULT, ?, ?, ?)";
         Object param[] = {
-                profile.getUsername(),
-                profile.getPassword(),
-                profile.getAvatar()
+                user.getUsername(),
+                user.getPassword(),
+                user.getAvatar()
         };
         if (updateByParams(sql, param)){
             return true;
@@ -24,7 +24,7 @@ public class ProfileDAO extends BaseDAO {
     }
 
     public boolean authentication(String username, String password){
-        String sql = "SELECT * FROM profile WHERE `username` = ? AND `password` = ?";
+        String sql = "SELECT * FROM user WHERE `username` = ? AND `password` = ?";
         Object param[] = {
                 username,
                 password
@@ -41,8 +41,8 @@ public class ProfileDAO extends BaseDAO {
         return true;
     }
 
-    public Profile getProfileByUsername(String username){
-        String sql = "SELECT * FROM profile WHERE `username` = ?";
+    public User getUserByUsername(String username){
+        String sql = "SELECT * FROM user WHERE `username` = ?";
         Object param[] = {
                 username
         };
@@ -50,8 +50,8 @@ public class ProfileDAO extends BaseDAO {
         return turnToList(result).get(0);
     }
 
-    public Profile getProfileById(int id){
-        String sql = "SELECT * FROM profile WHERE `id` = ?";
+    public User getUserById(int id){
+        String sql = "SELECT * FROM user WHERE `id` = ?";
         Object param[] = {
                 id
         };
@@ -64,16 +64,16 @@ public class ProfileDAO extends BaseDAO {
         return false;
     }
 
-    private List<Profile> turnToList(List<Map<String, Object>> result){
-        List<Profile> profiles = new ArrayList<Profile>();
-        for (Map<String, Object> profileMap:result) {
-            Profile profile = new Profile();
-            profile.setId(Integer.valueOf(profileMap.get("id").toString()));
-            profile.setUsername(profileMap.get("username").toString());
-            profile.setPassword(profileMap.get("password").toString());
-            profile.setAvatar(profileMap.get("avatar").toString());
-            profiles.add(profile);
+    private List<User> turnToList(List<Map<String, Object>> result){
+        List<User> users = new ArrayList<User>();
+        for (Map<String, Object> userMap:result) {
+            User user = new User();
+            user.setId(Integer.valueOf(userMap.get("id").toString()));
+            user.setUsername(userMap.get("username").toString());
+            user.setPassword(userMap.get("password").toString());
+            user.setAvatar(userMap.get("avatar").toString());
+            users.add(user);
         }
-        return profiles;
+        return users;
     }
 }

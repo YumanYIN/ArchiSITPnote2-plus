@@ -1,6 +1,8 @@
+import org.glassfish.jersey.filter.LoggingFilter;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import service.CommentServiceRESTful;
 import service.PostServiceRESTful;
-import service.ProfileServiceRESTful;
+import service.UserServiceRESTful;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -15,9 +17,11 @@ public class MyApplication extends Application{
     @Override
     public Set<Class<?>> getClasses() {
         HashSet h = new HashSet<Class<?>>();
-        h.add( ProfileServiceRESTful.class );
+        h.add( UserServiceRESTful.class );
         h.add( PostServiceRESTful.class );
         h.add( CommentServiceRESTful.class );
+        h.add(MultiPartFeature.class);
+        h.add(LoggingFilter.class);
         return h;
     }
 }

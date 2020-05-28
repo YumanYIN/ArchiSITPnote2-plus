@@ -1,6 +1,7 @@
 package service;
 
 import BaseService.CommentService;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -12,9 +13,10 @@ public class CommentServiceRESTful extends CommentService {
 
     @POST
     @Override
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     public boolean publishComment(@QueryParam("postId") int postId,
-                                  @QueryParam("text") String text,
-                                  @QueryParam("jwt") String jwt){
+                                  @FormDataParam("text") String text,
+                                  @FormDataParam("jwt") String jwt){
         return super.publishComment(postId, text, jwt);
     }
 

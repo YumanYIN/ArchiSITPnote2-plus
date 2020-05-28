@@ -4,19 +4,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-@Entity
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class Post {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Setter
@@ -30,11 +27,9 @@ public class Post {
     @Setter
     private String typeVisible; // public or private
 
-    @ManyToOne
-    private Profile author;
+    private User author;
 
-    public Post(String imagePath, String text, String typeVisible, Profile author) {
-        this.imagePath = imagePath;
+    public Post(String imagePath, String text, String typeVisible, User author) {
         this.text = text;
         this.typeVisible = typeVisible;
         this.author = author;
@@ -42,5 +37,6 @@ public class Post {
         DateFormat df = new SimpleDateFormat(pattern);
         Date today = Calendar.getInstance().getTime();
         this.created = df.format(today);
+        this.imagePath = this.created + '#' + imagePath;
     }
 }

@@ -2,14 +2,14 @@ package DAO;
 
 import Bean.Comment;
 import Bean.Post;
-import Bean.Profile;
+import Bean.User;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class PostDAO extends BaseDAO {
-    private ProfileDAO profileDAO = new ProfileDAO();
+    private UserDAO userDAO = new UserDAO();
     private CommentDAO commentDAO = new CommentDAO();
 
     public Post getPost(int id){
@@ -25,11 +25,11 @@ public class PostDAO extends BaseDAO {
         return turnToPost(result);
     }
 
-    public List<Post> getPublicPost(int profileId){
+    public List<Post> getPublicPost(int userId){
         String sql = "SELECT * FROM post WHERE ((`author_id` = ?) OR (`author_id` <> ? AND `typevisible` = public))";
         Object param[] = {
-                profileId,
-                profileId
+                userId,
+                userId
         };
         List<Map<String, Object>> result = select(sql, param);
         return turnToPost(result);
@@ -65,11 +65,10 @@ public class PostDAO extends BaseDAO {
         return commentDAO.getAllCommentsOfPost(postId);
     }
 
-    public boolean updatePost(int postId, String text, String imagePath, String typeVisible){
-        String sql = "UPDATE `post` SET text = ?, imagepath = ?, typevisible = ? WHERE id = ?";
+    public boolean updatePost(int postId, String text, String typeVisible){
+        String sql = "UPDATE `post` SET text = ?, typevisible = ? WHERE id = ?";
         Object param[] = {
                 text,
-                imagePath,
                 typeVisible,
                 postId
         };
@@ -80,9 +79,9 @@ public class PostDAO extends BaseDAO {
         }
     }
 
-    public List<Post> getAllPostsOfProfile(int profileId){
+    public List<Post> getAllPostsOfUser(int userId){
         String sql = "SELECT * FROM `post` WHERE `author_id` = ?";
-        Object param[] = { profileId };
+        Object param[] = { userId };
         return turnToPost(select(sql, param));
     }
 
@@ -91,7 +90,7 @@ public class PostDAO extends BaseDAO {
         for (Map<String, Object> postMap:result) {
             Post post = new Post();
             post.setId(Integer.valueOf(postMap.get("id").toString()));
-            post.setAuthor(profileDAO.getProfileById(Integer.valueOf(postMap.get("author_id").toString())));
+            post.setAuthor(userDAO.getUserById(Integer.valueOf(postMap.get("author_id").toString())));
             post.setCreated(postMap.get("created").toString());
             post.setImagePath(postMap.get("imagepath").toString());
             post.setText(postMap.get("text").toString());

@@ -1,18 +1,18 @@
-import service.CommentServiceSOAP;
-import service.PostServiceSOAP;
-import service.ProfileServiceSOAP;
+import service.*;
 
 import javax.xml.ws.Endpoint;
 
 public class MyApplication {
     public static void main(String[] args) {
-        String addressProfile = "http://localhost:8080/profile";
-        Endpoint.publish(addressProfile, new ProfileServiceSOAP());
+        String addressUser = "http://localhost:8080/user";
+        Endpoint.publish(addressUser, new UserServiceSOAPImpl());
 
         String addressPost = "http://localhost:8080/post";
-        Endpoint.publish(addressPost, new PostServiceSOAP());
+        Endpoint.publish(addressPost, new PostServiceSOAPImpl());
 
         String addressComment = "http://localhost:8080/comment";
-        Endpoint.publish(addressComment, new CommentServiceSOAP());
+        Endpoint.publish(addressComment, new CommentServiceSOAPImpl());
+
+        System.out.println("Service is running");
     }
 }

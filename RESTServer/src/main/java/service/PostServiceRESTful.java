@@ -6,15 +6,21 @@ import Bean.Post;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
-@Path("post")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-public class PostServiceRESTful extends PostService{
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
+@Path("post")
+
+public class PostServiceRESTful extends PostService{
     @GET
     @Path("allPosts")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Post[] getAllPost(){
         List<Post> postList = super.getAllPosts();
         Post[] posts = new Post[postList.size()];
@@ -24,22 +30,35 @@ public class PostServiceRESTful extends PostService{
 
     @POST
     @Override
-    public boolean publishPost(@QueryParam("text") String text,
-                               @QueryParam("imagePath") String imagePath,
-                               @QueryParam("typeVisible") String typeVisible,
-                               @QueryParam("jwt") String jwt){
-        return super.publishPost(text, imagePath, typeVisible, jwt);
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response publishPost(@FormDataParam("text") String text,
+                                @FormDataParam("typeVisible") String typeVisible,
+                                @FormDataParam("jwt") String jwt,
+                                @FormDataParam("file") InputStream uploadedInputStream,
+                                @FormDataParam("file") FormDataContentDisposition fileDetail) throws Exception {
+        return super.publishPost(text, typeVisible, jwt, uploadedInputStream, fileDetail);
+    }
+
+    @GET
+    @Path("/download/{imageName}")
+    @Produces("image/png")
+    public Response getImage(@PathParam("imageName") String imageName) {
+        String filename = super.imagePath + imageName;
+        File file = new File(filename);
+        Response.ResponseBuilder response = Response.ok((Object) file);
+        response.header("Content-Disposition","attachment; filename=" + imageName);
+        return response.build();
     }
 
     @PUT
     @Path("{postId}")
     @Override
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     public boolean updatePost(@PathParam("postId") int postId,
-                              @QueryParam("text") String text,
-                              @QueryParam("imagePath") String imagePath,
-                              @QueryParam("typeVisible") String typeVisible,
-                              @QueryParam("jwt") String jwt){
-        return super.updatePost(postId, text, imagePath, typeVisible, jwt);
+                              @FormDataParam("text") String text,
+                              @FormDataParam("typeVisible") String typeVisible,
+                              @FormDataParam("jwt") String jwt){
+        return super.updatePost(postId, text, typeVisible, jwt);
     }
 
     @GET
@@ -52,7 +71,7 @@ public class PostServiceRESTful extends PostService{
     @DELETE
     @Override
     public boolean deletePost(@QueryParam("postId") int postId,
-                              @QueryParam("jwt") String jwt){
+                              @FormDataParam("jwt") String jwt){
         return super.deletePost(postId, jwt);
     }
 

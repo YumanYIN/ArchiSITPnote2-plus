@@ -1,7 +1,7 @@
 package DAO;
 
 import Bean.Comment;
-import Bean.Profile;
+import Bean.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class CommentDAO extends BaseDAO {
     //private PostDAO postDAO = new PostDAO();
-    private ProfileDAO profileDAO = new ProfileDAO();
+    private UserDAO userDAO = new UserDAO();
 
     public List<Comment> getAllCommentsOfPost(int postId){
         String sql = "SELECT * FROM comment WHERE post_id = ?";
@@ -51,7 +51,7 @@ public class CommentDAO extends BaseDAO {
             comment.setId(Integer.valueOf(commentMap.get("id").toString()));
             comment.setText(commentMap.get("text").toString());
             comment.setPost(postDAO.getPost(Integer.valueOf(commentMap.get("post_id").toString())));
-            comment.setAuthor(profileDAO.getProfileById(Integer.valueOf(commentMap.get("author_id").toString())));
+            comment.setAuthor(userDAO.getUserById(Integer.valueOf(commentMap.get("author_id").toString())));
             comment.setCreated(commentMap.get("created").toString());
             comments.add(comment);
         }
