@@ -44,4 +44,12 @@ public interface PostServiceSOAP {
     @WebMethod(operationName = "allMyPosts")
     @WebResult(name = "allMyPostsResponse")
     public Post[] getMyAllPost(String jwt);
+
+    @WebMethod(operationName = "publicPosts")
+    @WebResult(name = "publicPostsResponse")
+    public Post[] getPublicPosts();
+
+    @WebMethod(operationName = "picture")
+    @WebResult(name = "pictureResponse")
+    public byte[] getPic(String picName) throws IOException;
 }

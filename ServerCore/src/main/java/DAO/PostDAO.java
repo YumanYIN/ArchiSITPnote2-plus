@@ -25,6 +25,13 @@ public class PostDAO extends BaseDAO {
         return turnToPost(result);
     }
 
+    public List<Post> findAllPublicPosts(){
+        String sql = "SELECT * FROM post WHERE `typevisible` = 'public'";
+        Object param[] = {};
+        List<Map<String, Object>> result = select(sql, param);
+        return turnToPost(result);
+    }
+
     public List<Post> getPublicPost(int userId){
         String sql = "SELECT * FROM post WHERE ((`author_id` = ?) OR (`author_id` <> ? AND `typevisible` = public))";
         Object param[] = {

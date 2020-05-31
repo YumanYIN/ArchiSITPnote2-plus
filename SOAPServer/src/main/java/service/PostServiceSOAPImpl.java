@@ -8,9 +8,7 @@ import util.JwtUtils;
 import javax.imageio.ImageIO;
 import javax.jws.WebService;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 @WebService(endpointInterface = "service.PostServiceSOAP")
@@ -76,5 +74,28 @@ public class PostServiceSOAPImpl implements PostServiceSOAP {
         Post[] posts = new Post[postList.size()];
         postList.toArray(posts);
         return posts;
+    }
+
+    @Override
+    public Post[] getPublicPosts(){
+        List<Post> postList = postService.getAllPublicPosts();
+        Post[] posts = new Post[postList.size()];
+        postList.toArray(posts);
+        return posts;
+    }
+
+    @Override
+    public byte[] getPic(String picName) throws IOException {
+        BufferedInputStream in = new BufferedInputStream(new FileInputStream(imagePath + picName));
+        ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
+
+        byte[] temp = new byte[1024];
+        int size = 0;
+        while ((size = in.read(temp)) != -1) {
+            out.write(temp, 0, size);
+        }
+        in.close();
+        byte[] content = out.toByteArray();
+        return content;
     }
 }

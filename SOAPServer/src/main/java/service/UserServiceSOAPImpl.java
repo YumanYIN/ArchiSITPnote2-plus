@@ -25,7 +25,7 @@ public class UserServiceSOAPImpl implements UserServiceSOAP {
 
     @WebMethod(operationName = "register")
     @WebResult(name = "registerResponse")
-    public boolean register(String username, String password){
+    public String register(String username, String password){
         return userService.register(username, password);
     }
 

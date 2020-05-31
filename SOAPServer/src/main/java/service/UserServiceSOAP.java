@@ -21,7 +21,7 @@ public interface UserServiceSOAP {
 
     @WebMethod(operationName = "register")
     @WebResult(name = "registerResponse")
-    public boolean register(String username, String password);
+    public String register(String username, String password);
 
     @WebMethod(operationName = "logout")
     @WebResult(name = "logoutResponse")

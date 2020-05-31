@@ -5,6 +5,7 @@ import Bean.Comment;
 import Bean.Post;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
@@ -15,8 +16,29 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 @Path("post")
-
 public class PostServiceRESTful extends PostService{
+    @GET
+    @Path("allPublicPosts")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Post[] getAllPublicPost(){
+        List<Post> postList = super.getAllPublicPosts();
+        Post[] posts = new Post[postList.size()];
+        postList.toArray(posts);
+        return posts;
+    }
+
+    @GET
+    @Path("allMyPosts")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Post[] getAllMyPosts(@QueryParam("jwt") String jwt){
+        List<Post> postList = super.getMyAllPosts(jwt);
+        Post[] posts = new Post[postList.size()];
+        postList.toArray(posts);
+        return posts;
+    }
+
     @GET
     @Path("allPosts")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -29,14 +51,15 @@ public class PostServiceRESTful extends PostService{
     }
 
     @POST
-    @Override
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response publishPost(@FormDataParam("text") String text,
-                                @FormDataParam("typeVisible") String typeVisible,
-                                @FormDataParam("jwt") String jwt,
-                                @FormDataParam("file") InputStream uploadedInputStream,
-                                @FormDataParam("file") FormDataContentDisposition fileDetail) throws Exception {
-        return super.publishPost(text, typeVisible, jwt, uploadedInputStream, fileDetail);
+    @Path("upload")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response publishPost(@QueryParam("text") String text,
+                                @QueryParam("typeVisible") String typeVisible,
+                                @QueryParam("jwt") String jwt,
+                                @QueryParam("imageName") String imageName,
+                                InputStream uploadedInputStream) throws Exception {
+        return super.publishPost(text, typeVisible, jwt, uploadedInputStream, imageName);
     }
 
     @GET
@@ -77,14 +100,12 @@ public class PostServiceRESTful extends PostService{
 
     @GET
     @Path("showComments")
-    @Override
-    public List<Comment> showComments(@QueryParam("postId") int postId){
-        return super.showComments(postId);
-    }
-
-    @GET
-    @Path("allMyPosts")
-    public List<Post> getMyAllPosts(@QueryParam("jwt") String jwt){
-        return super.getMyAllPosts(jwt);
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Comment[] getComments(@QueryParam("postId") int postId){
+        List<Comment> commentList = super.showComments(postId);
+        Comment[] comments = new Comment[commentList.size()];
+        commentList.toArray(comments);
+        return comments;
     }
 }

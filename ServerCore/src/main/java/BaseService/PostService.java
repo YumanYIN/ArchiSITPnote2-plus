@@ -24,6 +24,10 @@ public class PostService {
         return postDAO.findAll();
     }
 
+    public List<Post> getAllPublicPosts() {
+        return postDAO.findAllPublicPosts();
+    }
+
     public List<Post> getMyAllPosts(String jwt){
         try{
             String username = JwtUtils.getInstance().getUserNameFromJwtToken(jwt);
@@ -34,9 +38,9 @@ public class PostService {
         return null;
     }
 
-    public Response publishPost(String text, String typeVisible, String jwt, InputStream uploadedInputStream, FormDataContentDisposition fileDetail) throws Exception {
+    public Response publishPost(String text, String typeVisible, String jwt, InputStream uploadedInputStream, String imageName) throws Exception {
         String username = JwtUtils.getInstance().getUserNameFromJwtToken(jwt);
-        String imageName = fileDetail.getFileName();
+        //String imageName = fileDetail.getFileName();
         String files[] = imageName.split(":");
         imageName = files[files.length-1];
         System.out.println("filename => "+ imageName);

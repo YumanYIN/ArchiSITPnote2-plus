@@ -14,20 +14,21 @@ public class UserService {
                 return JwtUtils.getInstance().generateJwtToken(user.getUsername());
                 //return user;
             }else{
-                return "Votre connexion a ¨¦chou¨¦";
+                return "error";
             }
         }catch (Exception e){
-            return "Votre connexion a ¨¦chou¨¦, il y a un probl¨¨me";
+            return "error";
         }
     }
 
-    public boolean register(String username, String password){
+    public String register(String username, String password){
         if(!userDAO.existUsername(username)){
             User user = new User(username, password, "");
-            return userDAO.addUser(user);
-        }else{
-            return false;
+            if(userDAO.addUser(user)){
+                return "success";
+            }
         }
+        return "error";
     }
 
     public String logout(String jwt){

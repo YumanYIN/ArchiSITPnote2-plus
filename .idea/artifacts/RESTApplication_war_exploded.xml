@@ -6,8 +6,14 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="RESTApplication" />
+          <element id="module-output" name="ClientCore" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.5" />
+          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.6.1" />
         </element>
       </element>
+      <element id="javaee-facet-resources" facet="ClientCore/web/Web" />
     </root>
   </artifact>
 </component>

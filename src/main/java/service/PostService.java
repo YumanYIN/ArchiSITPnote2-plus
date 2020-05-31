@@ -14,7 +14,7 @@ public class PostService {
     public PostService(){
         postMap.put(1,    //Map Key (Integer)
                 new Post( // Map Value
-                        "./images/1.jpg", // example
+                        "./images/1.jpg", // beans
                         "Beautiful days",
                         "public",
                         new Profile("username", "password", "./avatars/1.jpg")));
