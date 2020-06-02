@@ -8,8 +8,10 @@ import com.google.gson.reflect.TypeToken;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -22,8 +24,9 @@ import com.google.gson.Gson;
 
 @ManagedBean
 @RequestScoped
-public class PostBean {
+public class PostBean implements Serializable {
     private Post post;
+    private Part part;
     private List<Post> postList = new ArrayList<>();
     private List<Post> myPostList = new ArrayList<>();
     private HttpSession session;
@@ -33,6 +36,7 @@ public class PostBean {
     private List<Comment> commentList = new ArrayList<Comment>();
 
     private String jwtText = "/Users/wangwei/IdeaProjects/ArchiTPNote2-plus/ArchiSITPnote2-plus/RESTApplication/jwt.txt";
+    private String imagePathTemp = "/Users/wangwei/IdeaProjects/ArchiTPNote2-plus/ArchiSITPnote2-plus/RESTApplication/imageTemp/";
 
     private WebTarget targetPost;
 
@@ -80,18 +84,64 @@ public class PostBean {
         return "/comment.xhtml?faces-redirect=true&postId=" + postId;
     }
 
+    /**
+     * to get the picture and save it in a temporary folder, and transfer to service
+     * @return
+     * @throws IOException
+     */
     public String publishPost() throws IOException {
         File filename = new File(jwtText);
         InputStreamReader reader = new InputStreamReader(new FileInputStream(filename));
         BufferedReader br = new BufferedReader(reader);
         String jwt = br.readLine();
 
-        Response response = targetPost.queryParam("text", post.getText())
+        String header = part.getHeader("Content-Disposition");
+        String fileName = header.substring(header.indexOf("filename=\"") + 10,
+                header.lastIndexOf("\""));
+        System.out.println(fileName);
+
+        InputStream in = part.getInputStream();
+        OutputStream out = new FileOutputStream(imagePathTemp + fileName);
+        byte[] buffer = new byte[1024];
+        int length = -1;
+        while ((length = in.read(buffer)) != -1) {
+            out.write(buffer, 0, length);
+        }
+        in.close();
+        out.close();
+
+        BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(imagePathTemp + fileName));
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(1024);
+
+        byte[] temp = new byte[1024];
+        int size = 0;
+        while ((size = inputStream.read(temp)) != -1) {
+            outputStream.write(temp, 0, size);
+        }
+        inputStream.close();
+
+        byte[] content = outputStream.toByteArray();
+        //InputStream stream = new ByteArrayInputStream(content);
+        String contentPic = new String(content);
+
+        Response response = targetPost.path("upload")
+                .queryParam("text", post.getText())
                 .queryParam("typeVisible", post.getTypeVisible())
                 .queryParam("jwt",jwt)
-                .request(MediaType.APPLICATION_JSON_TYPE)
-                .get();
-        return "/myPostList.xhtml?faces-redirect=true";
+                .queryParam("fileName",fileName)
+                .request("multipart/form-data")
+                .post(Entity.entity(String.class, contentPic));
+
+        if(response.readEntity(String.class).equals("error")){
+            return "/post.xhtml";
+        }
+        return "/index.xhtml?faces-redirect=true";
+    }
+
+    public String toPostComment(Post post){
+
+        this.post = post;
+        return "/comment.xhtml?faces-redirect=true";
     }
 
     public List<Post> jsonToPostList(String json){
@@ -167,5 +217,13 @@ public class PostBean {
 
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
+    }
+
+    public Part getPart() {
+        return part;
+    }
+
+    public void setPart(Part part) {
+        this.part = part;
     }
 }

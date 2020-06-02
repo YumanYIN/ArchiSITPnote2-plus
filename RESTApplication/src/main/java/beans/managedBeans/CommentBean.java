@@ -2,6 +2,7 @@ package beans.managedBeans;
 
 import DAO.CommentDAO;
 import beans.backingBeans.Comment;
+import beans.backingBeans.Post;
 import beans.backingBeans.User;
 
 import javax.faces.bean.RequestScoped;
@@ -10,15 +11,17 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.xml.ws.Response;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
 @RequestScoped
-public class CommentBean {
+public class CommentBean implements Serializable {
     private Comment comment;
     private List<Comment> listComment = new ArrayList<Comment>();
     private WebTarget targetComment;
+    private Post post;
 
     public CommentBean(){
         comment = new Comment();
@@ -43,5 +46,11 @@ public class CommentBean {
         return list;
     }
 
+    public Post getPost() {
+        return post;
+    }
 
+    public void setPost(Post post) {
+        this.post = post;
+    }
 }

@@ -58,19 +58,17 @@
                                                     <h:outputText value="#{post.created}" />
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <img src="http://localhost:8080/RESTServer_war_exploded/post/download/#{post.imagePath}" style="width: 400px" alt="#{post.imagePath}"/>
-                                                    <!-- <img src="images/post/#{post.imagePath}" style="width: 400px" alt="#{post.imagePath}"/> -->
+                                                    <h:commandLink action="#{postBean.toPostComment(post)}">
+                                                        <img src="http://localhost:8080/RESTServer_war_exploded/post/download/#{post.imagePath}" style="width: 400px" alt="#{post.imagePath}"/>
+                                                        <!-- <img src="images/post/#{post.imagePath}" style="width: 400px" alt="#{post.imagePath}"/> -->
+                                                    </h:commandLink>
                                                 </div>
 
                                                 <div class="col-md-3">
                                                     <h5>
                                                         <h:outputText value="#{post.text}" />
                                                     </h5>
-
                                                 </div>
-
-
-
                                             </div>
                                         </div>
                                     </h:form>
@@ -79,22 +77,7 @@
                         </div>
                     </div>
                 </div>
-
-                <ui:repeat value="#{postBean.postList}" var="post">
-                <div class="col-lg-4 col-md-6 col-6 mb-6">
-                    <div class="card-body border-0">
-                        <a href="comment.xhtml?faces-redirect=true">
-                            <img class="rounded img-fluid" src="http://localhost:8080/RESTServer_war_exploded/post/download/#{post.imagePath}" style="width: 100%; height: 100%" alt="#{post.imagePath}"/>
-                        </a>
-                        <h:button onclick="#{postBean.getComment(post.id)}">Comments</h:button>
-                    </div>
-                </div>
-                </ui:repeat>
-
-
-
             </div>
-
         </div>
     </div>
 </h:body>

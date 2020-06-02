@@ -22,7 +22,7 @@
                     </div>
                     <h:form enctype="multipart/form-data" method = "post">
                         <div class="row form-group col-12 mb-5">
-                            <h:inputFile id="file" value="#{postBean.imageName}" required="true"/>
+                            <h:inputFile id="file" value="#{postBean.part}" required="true"/>
 
                             <h:messages for="file" styleClass="text-danger"/>
                         </div>
@@ -37,7 +37,7 @@
                             <h:inputTextarea value="#{postBean.post.text}" class="form-control" rows="5" cols="7" p:placeholder="Mon commentaire ..."/>
                         </div>
                         <div class="col-12 mb-3">
-                            <h:commandButton class="btn btn-primary btn-block" value="Soumettre" href="http://localhost:8080/RESTServer_war_exploded/post/"/>
+                            <h:commandButton class="btn btn-primary btn-block" value="Soumettre" action="#{postBean.publishPost()}"/>
                         </div>
                     </h:form>
 

@@ -8,6 +8,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
@@ -52,14 +53,15 @@ public class PostServiceRESTful extends PostService{
 
     @POST
     @Path("upload")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes("multipart/form-data")
     @Produces(MediaType.APPLICATION_JSON)
     public Response publishPost(@QueryParam("text") String text,
                                 @QueryParam("typeVisible") String typeVisible,
                                 @QueryParam("jwt") String jwt,
                                 @QueryParam("imageName") String imageName,
-                                InputStream uploadedInputStream) throws Exception {
-        return super.publishPost(text, typeVisible, jwt, uploadedInputStream, imageName);
+                                String uploadedInputStream) throws Exception {
+        InputStream stream = new ByteArrayInputStream(uploadedInputStream.getBytes());
+        return super.publishPost(text, typeVisible, jwt, stream, imageName);
     }
 
     @GET
