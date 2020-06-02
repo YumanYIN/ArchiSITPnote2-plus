@@ -75,6 +75,8 @@ public class PostBean {
         return "/myPostList.xhtml?faces-redirect=true";
     }
 
+    public String toPostPage() { return "/post.xhtml?faces-redirect=true"; }
+
     private Post beanPostToBackPost(Bean.Post beanPost){
         User user = new User(beanPost.getAuthor().getId(), beanPost.getAuthor().getUsername(), beanPost.getAuthor().getPassword(), "");
         Post post = new Post(beanPost.getId(),beanPost.getImagePath(), beanPost.getText(), beanPost.getTypeVisible(), user);

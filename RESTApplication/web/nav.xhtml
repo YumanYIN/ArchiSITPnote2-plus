@@ -23,7 +23,11 @@
                             <h:form>
                                 <h:commandLink rendered="#{userBean.loggedIn}" action="#{postBean.toMyPostList}" value="Mes images" styleClass="nav-link"/>
                             </h:form>
-
+                        </li>
+                        <li class="nav-item active">
+                            <h:form>
+                                <h:commandLink rendered="#{userBean.loggedIn}" action="#{postBean.toPostPage}" value="+ image" styleClass="nav-link"/>
+                            </h:form>
                         </li>
                     </ul>
                         <!-- Logout -->

@@ -73,6 +73,8 @@ public class PostBean implements Serializable {
         return "/myPostList.xhtml?faces-redirect=true";
     }
 
+    public String toPostPage() { return "/post.xhtml?faces-redirect=true"; }
+
     public String getComment(int postId){
         Response response = targetPost.path("showComments")
                 .queryParam("postId", postId)
