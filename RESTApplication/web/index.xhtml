@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:insert name="metadata"/>
+<ui:include src="head.xhtml" />
+<h:body>
+    <ui:include src="nav.xhtml" />
+
+    <div class="bg-shape" style=" background-size: cover; background: linear-gradient(180deg, rgba(30, 24, 53, 0.4) 0%, rgba(30, 24, 53, 0.4) 90.16%), url('images/bg0.jpg') no-repeat center;">
+        <div class="container">
+            <div class="row">
+                <div class="offset-lg-2 col-lg-8 col-md-12 col-12">
+                    <div class="text-center py-lg-16 py-12">
+                        <h1 class="mb-3 display-4 text-white">Images</h1>
+                        <p class="lead text-light mb-4 mb-lg-0">
+                            Merci pour votre visite, laissez votre commentaire ici.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pb-14">
+        <div class="container">
+
+            <!-- post list -->
+            <div class="row">
+                <div class="offset-lg-3 col-lg-6 col-md-12 col-12 mt-6">
+                    <div class="text-center mt-12">
+                        <h4 class="mb-4">Post List</h4>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="text-center mt-12">
+                        <h4 class="mb-4">Post list</h4>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active">
+                            <div class="card mt-n12 text-center mb-0">
+
+                                <ui:repeat value="#{postBean.postList}" var="post">
+                                    <h:form>
+                                        <div class="card-body border-top p-4">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <h5 class="mb-1 text-danger">
+                                                        <h:outputText value="#{post.author.userName}" />
+                                                    </h5><br />
+                                                    <h:outputText value="#{post.created}" />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h:commandLink action="#{postBean.toPostComment(post)}">
+                                                        <img src="http://localhost:8080/RESTServer_war_exploded/post/download/#{post.imagePath}" style="width: 400px" alt="#{post.imagePath}"/>
+                                                        <!-- <img src="images/post/#{post.imagePath}" style="width: 400px" alt="#{post.imagePath}"/> -->
+                                                    </h:commandLink>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <h5>
+                                                        <h:outputText value="#{post.text}" />
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </ui:repeat>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</h:body>
+
+
+</html>

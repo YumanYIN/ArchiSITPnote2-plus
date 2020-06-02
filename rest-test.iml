@@ -28,5 +28,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="JAX-RS-2.1.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Tomcat 9.0.31" level="application_server_libraries" />
+    <orderEntry type="library" name="JPA 2.0-2.0" level="project" />
   </component>
 </module>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:insert name="metadata"/>
+<ui:include src="head.xhtml" />
+<h:body>
+    <ui:include src="nav.xhtml" />
+
+    <div class="py-lg-12 py-10">
+        <div class="container">
+            <div class="row">
+                <div class="offset-xl-3 col-xl-6 col-lg-12 col-md-12 col-12">
+                    <div class="col-12 mb-5">
+                        <h5 class="text-danger text-center">
+                            Publier une image
+                        </h5>
+                    </div>
+                    <h:form enctype="multipart/form-data" method = "post">
+                        <div class="row form-group col-12 mb-5">
+                            <h:inputFile id="file" value="#{postBean.part}" required="true"/>
+
+                            <h:messages for="file" styleClass="text-danger"/>
+                        </div>
+                        <div class="form-group col-12 mb-4">
+                            <label class="label">Type visible:</label>
+                            <h:selectOneMenu value="#{postBean.post.typeVisible}" styleClass="form-control">
+                                <f:selectItem itemValue="public" itemLabel="Publique"/>
+                                <f:selectItem itemValue="private" itemLabel="Privé"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-12 mb-3">
+                            <h:inputTextarea value="#{postBean.post.text}" class="form-control" rows="5" cols="7" p:placeholder="Mon commentaire ..."/>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <h:commandButton class="btn btn-primary btn-block" value="Soumettre" action="#{postBean.publishPost()}"/>
+                        </div>
+                    </h:form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</h:body>
+
+</html>

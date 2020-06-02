@@ -15,7 +15,7 @@ public class ProfileService {
     public ProfileService(){
         profileMap.put("username1",    //Map Key (Integer)
                 new Profile( // Map Value
-                        "username1", // example
+                        "username1", // beans
                         "password",
                         "./avatars/1.jpg"));
     }
